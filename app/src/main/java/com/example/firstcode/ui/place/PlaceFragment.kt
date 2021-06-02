@@ -1,5 +1,6 @@
 package com.example.firstcode.ui.place
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.firstcode.R
 import com.example.firstcode.databinding.FragmentPlaceBinding
+import com.example.firstcode.ui.weather.WeatherActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +54,17 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            fragmentPlaceBinding.edtCity.setText(place.name)
+//            val intent = Intent(context, WeatherActivity::class.java).apply {
+//                putExtra("location_lng", place.location.lng)
+//                putExtra("location_lat", place.location.lat)
+//                putExtra("place_name", place.name)
+//            }
+//            startActivity(intent)
+//            return
+        }
         val layoutManager = LinearLayoutManager(activity)
         adapter = PlaceAdapter(this, viewModel.placeList)
         fragmentPlaceBinding.rcv.let {
