@@ -1,14 +1,19 @@
 package com.example.firstcode.ui.weather
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.firstcode.R
@@ -19,15 +24,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
-    private lateinit var activityWeatherBinding: ActivityWeatherBinding
-    private val viewModel by lazy {
+    lateinit var activityWeatherBinding: ActivityWeatherBinding
+    val viewModel by lazy {
         ViewModelProvider(this).get(WeatherViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val decorView = window.decorView
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = Color.TRANSPARENT
         }
@@ -54,8 +60,49 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
                 it.exceptionOrNull()?.printStackTrace()
             }
+            activityWeatherBinding.swipeRefresh.isRefreshing = false
         })
+
+        activityWeatherBinding.swipeRefresh.let {
+            it.setColorSchemeResources(R.color.purple_700)
+            it.setOnRefreshListener {
+                refreshWeather()
+            }
+        }
+
+        refreshWeather()
+
+        activityWeatherBinding.now.navBtn.setOnClickListener {
+            activityWeatherBinding.layoutDrawer.openDrawer(GravityCompat.START)
+        }
+
+        activityWeatherBinding.layoutDrawer.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                Log.e("weather", "onDrawerSlide: $slideOffset")
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                Log.e("weather", "onDrawerOpened: ")
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(
+                    activityWeatherBinding.layoutDrawer.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+                Log.e("weather", "onDrawerStateChanged: $newState")
+            }
+
+        })
+    }
+
+    fun refreshWeather() {
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
+        activityWeatherBinding.swipeRefresh.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather) {

@@ -15,9 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstCode">
-        <activity android:name=".ui.weather.WeatherActivity"></activity>
-        <activity android:name=".ui.place.PlaceActivity" />
-        <activity android:name=".RoomActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -40,6 +37,9 @@
         <activity android:name=".TakePhotoActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".ContentResolverActivity" />
+        <activity android:name=".ui.weather.WeatherActivity"/>
+        <activity android:name=".ui.place.PlaceActivity" />
+        <activity android:name=".RoomActivity" />
         <activity
             android:name=".DrawerNavigationActivity"
             android:label="侧滑与导航"
