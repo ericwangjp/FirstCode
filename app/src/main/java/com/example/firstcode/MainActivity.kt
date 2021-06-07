@@ -12,6 +12,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.firstcode.databinding.ActivityMainBinding
+import com.example.firstcode.ui.login.LoginActivity
 import com.example.firstcode.ui.place.PlaceActivity
 import java.util.concurrent.TimeUnit
 
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 it.btnRoom.setOnClickListener(this)
                 it.btnWorkManager.setOnClickListener(this)
                 it.btnPlace.setOnClickListener(this)
+                it.btnLogin.setOnClickListener(this)
             }
         }
 
@@ -136,6 +138,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_place -> {
                 val intent = Intent(this, PlaceActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.btn_login -> {
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }

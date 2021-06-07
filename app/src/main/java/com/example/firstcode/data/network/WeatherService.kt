@@ -13,11 +13,10 @@ import retrofit2.http.Path
  * Copyright (C) 2021, by Sumpay, All rights reserved.
  * -----------------------------------------------------------------
  * desc: WeatherService
- * Author: wangjp
+ * Author: wangjpm
  * Email: wangjp1@fosun.com
  * Version: Vx.x.x
  * Create: 2021/6/2 11:22 上午
- *
  *
  */
 interface WeatherService {

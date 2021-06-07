@@ -91,6 +91,13 @@
                 android:layout_margin="15dp"
                 android:text="城市选择" />
 
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="登录" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
